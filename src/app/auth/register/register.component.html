@@ -1,0 +1,27 @@
+<div class="container">
+    <div class="col">
+
+        <form class="form-group signup" [formGroup]="formRegister" (onSubmit)="onSubmit()">
+            <span class="title">Create your account</span>
+
+            <div class="form-group">
+                <input #email formControlName="email" class="form-control" placeholder="E-mail">
+                <span *ngIf="formRegister.get('email').invalid && formRegister.get('email').touched" class="error-text">Please enter a valid email address</span>
+            </div>
+
+            <div class="form-group">
+                <input #password type="password" formControlName="password1" class="form-control"  placeholder="Password">
+            </div>
+
+            <div class="form-group">
+                <input #passwordConfirm type="password" formControlName="password2" class="form-control" placeholder="Confirm password">
+                <div class="help">
+                    <span *ngIf=" (formRegister.get('password1').value != formRegister.get('password2').value) && formRegister.get('password2').touched" class="error-text">The password confirmation does not match</span>
+                    <span *ngIf="formRegister.get('password1').invalid &&  formRegister.get('password1').touched" class="error-text">Password is too short (minimum 6 characters)</span>
+                    <span *ngIf="err" class="error-text">Account with this email address already exists</span>
+                </div>
+            </div>
+            <input  (click)="onSignup(email.value, password.value)" class="btn btn-default" [disabled]="formRegister.invalid" type="submit" value="Create" />
+        </form>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+<div class="container">
+    <div class="date-item">
+        
+        <div class="date__header">
+            <i class="material-icons" (click)="minusMonth()">arrow_left</i>
+            <div class="year">{{dataService.date | async | moment}}</div>
+            <i class="material-icons" (click)="plusMonth()">arrow_right</i>
+        </div>
+
+        <div id="calendar">
+            <table class="tbody">
+                <thead>
+                <tr class="months">
+                    <th class="calendar__day">Monday</th>
+                    <th class="calendar__day">Tuesday</th>
+                    <th class="calendar__day">Wednesday</th>
+                    <th class="calendar__day">Thursday</th>
+                    <th class="calendar__day">Friday</th>
+                    <th class="calendar__day">Saturday</th>
+                    <th class="calendar__day">Sunday</th>
+                </tr>
+                </thead>
+                <tbody >
+                    <tr class="trow" *ngFor="let week of calendar">
+                        <td class="tdata" *ngFor="let day of week.days"  (click)="changeModal(day.value)" [class.disable]="day.disable">
+                            <a type="button" class="active calendar__number" [class.selected]="day.selected"  [class.active]="day.active">  {{day.value | date: 'd'}}</a>                            
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+  <!-- Modal -->
+  <form class=" calendar-form" [formGroup]="calendarForm">
+    <div [class.show]="modal" class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <div class="task">
+                    <div class="header_popup">
+                        <h5 class="modal-title" id="exampleModalLongTitle">{{dataService.date | async | moment: 'DD-MMMM'}}</h5>
+                        <button type="button" class="close" (click)="closeModal()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <textarea [(ngModel)]="tempTask.description" id="description" class="text-area form-control" formControlName="description" cols="100" rows="10" placeholder="Description"></textarea>
+                    <span *ngIf="calendarForm.get('description').invalid && calendarForm.get('description').touched" class="error-text">Description can't be empty</span>
+
+                    <input [(ngModel)]="tempTask.time" type="number" name="time" formControlName="hours" class="form-control" placeholder="Hours" />
+                    <span *ngIf="calendarForm.get('hours').invalid && calendarForm.get('hours').touched" class="error-text">Enter a valid hours</span>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" (click)="submit()" class="btn btn-primary" [disabled]="calendarForm.invalid">Save changes</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</form>

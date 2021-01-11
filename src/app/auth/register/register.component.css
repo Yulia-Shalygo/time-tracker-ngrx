@@ -1,0 +1,51 @@
+@font-face {
+  font-family: Poppins-Medium;
+  src: url('../../../fonts/poppins/Poppins-Medium.ttf'); 
+}
+.container{
+  text-align: center;
+  width: 100%;  
+  min-height: 50vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  position: relative;
+  background-color: #fff;
+}
+.signup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.col{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.form-control{
+  width: 500px;
+}
+.title {
+  font-family: Poppins-Medium;
+  font-size: 30px;
+  color: #212121;
+}
+.help {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 5px;
+  line-height: .7;
+}
+.btn{
+  padding: 5px 50px;
+  border: .5px solid #212121;
+  cursor: pointer;
+}
+.btn:hover {
+  background-color: #00897b;
+  color: #fff;
+  transition: background 0.3s linear, color 0.1s linear;
+}
