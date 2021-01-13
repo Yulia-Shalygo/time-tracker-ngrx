@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Logout } from 'src/app/auth/store/actions/auth.actions';
 
 import { FirebaseService } from 'src/app/services/firebase.service';
 
@@ -20,8 +21,8 @@ export class HeaderCalendComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  logout(): void {    
-    this.firebaseService.logout();
+  logout(): void { 
+    this.store.dispatch(Logout());
     this.router.navigate(['/login']);
   }
 }

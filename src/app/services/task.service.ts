@@ -4,6 +4,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 import { DataSnapshot } from '@angular/fire/database/interfaces';
+import { from, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +15,12 @@ export class TaskService {
 
   constructor() { }
 
-  create(task: Task): void { 
-    firebase.database().ref(`tasks/${task.user}/${task.date}`).set(task).catch(error => {
-      console.log(error);
-    });
+  create(task: Task): Observable<any> { 
+    return from(
+      firebase.database().ref(`tasks/${task.user}/${task.date}`).set(task).catch(error => {
+        console.log(error);
+      })
+    )
   }
 
   readAll(): Task[] {

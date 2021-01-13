@@ -1,32 +1,26 @@
-import { Task } from "src/app/interfaces/task";
 
+import { createReducer, on, Action } from '@ngrx/store';
 import * as calendarActions from '../actions/calendar.actions';
-import { TaskUnion } from "../actions/calendar.actions";
+import { Task } from '../models/task.model';
 
-// export type Action = calendarActions.TaskUnion;
+export const CALENDAR_REDUCER_NODE = 'calendar';
 
 export interface State {
-    task: Task[];
+    task: Task;
 }
 
 const initialState: State = {
-    task: [],
+    task: null
  };
 
-export const reducer = (state: State = initialState, action: TaskUnion) => {
-    switch(action.type) {
-        case calendarActions.CalendarActionTypes.AddTask: {
-            return {
-                ...state,
-               // tasks: action.payload.task
-               tasks: [
-                   ...state.task,
-                   {
-                       name: action.payload.task
-                   }
-               ]
-            };
-        };
-        default: return state;
-    }
+export const CalendarReducer = createReducer(
+    initialState,
+    on(calendarActions.AddTask, (state, action) => ({
+        ...state,
+        task: action.task
+    }))
+);
+
+export function reducer(state: State | undefined, action: Action) {
+    return CalendarReducer(state, action);
 }

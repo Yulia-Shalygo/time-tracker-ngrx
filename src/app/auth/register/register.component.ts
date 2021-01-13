@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
 import { FirebaseService } from '../../services/firebase.service';
+import { Register } from '../store/actions/auth.actions';
+import { User } from '../store/models/user.model';
 
 @Component({
   selector: 'app-register',
@@ -12,7 +15,10 @@ export class RegisterComponent implements OnInit {
   formRegister: FormGroup;
   err: boolean = false;
 
-  constructor(public firebaseService: FirebaseService) { }
+  constructor(
+    public firebaseService: FirebaseService,
+    private store: Store
+  ) { }
 
   ngOnInit(): void {
     this.formRegister = new FormGroup({
@@ -30,10 +36,12 @@ export class RegisterComponent implements OnInit {
   }
 
   async onSignup(email: string, password: string): Promise<void> {
-    await this.firebaseService.register(email, password).catch(error => {      
-      this.formRegister.reset();
-      this.formRegister.enable();
-      this.err = true;
-    })
+
+    const user: User = {
+      email,
+      password
+    };
+
+    this.store.dispatch(Register({ user }));
   }
 }

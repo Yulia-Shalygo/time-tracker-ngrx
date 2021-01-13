@@ -5,13 +5,14 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: "AIzaSyDHgLlhMq-ZRwj-5HDckorCJhJDBOKfk84",
-    authDomain: "time-tracker-9eb9c.firebaseapp.com",
-    projectId: "time-tracker-9eb9c",
-    storageBucket: "time-tracker-9eb9c.appspot.com",
-    messagingSenderId: "4227827929",
-    appId: "1:4227827929:web:6ccabd0cdb6247aa5856c8",
-    measurementId: "G-43L14YMZ0Q"
+    apiKey: "AIzaSyAys4AQ7pn7F1ARm3k8Z7cpa7nc8rtJNPo",
+    authDomain: "time-tr-87414.firebaseapp.com",
+    databaseURL: "https://time-tr-87414-default-rtdb.firebaseio.com",
+    projectId: "time-tr-87414",
+    storageBucket: "time-tr-87414.appspot.com",
+    messagingSenderId: "1050516287508",
+    appId: "1:1050516287508:web:e72f463ba16cd100fe3701",
+    measurementId: "G-ZMC3M9SW3B"
   }
 };
 

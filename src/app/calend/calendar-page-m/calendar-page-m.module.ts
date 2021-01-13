@@ -11,7 +11,9 @@ import { CalendarPageComponent } from '../calendar-page/calendar-page.component'
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { TaskService } from 'src/app/services/task.service';
 import { StoreModule } from '@ngrx/store';
-import { reducer } from '../store/reducers/calendar.reducers';
+import { reducer, CALENDAR_REDUCER_NODE } from '../store/reducers/calendar.reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { CalendarEffects } from '../store/effects/calendar.effects';
 
 @NgModule({
   declarations: [
@@ -27,8 +29,8 @@ import { reducer } from '../store/reducers/calendar.reducers';
     CommonModule,
     CalendarPageMRoutingModule,
 
-    StoreModule.forFeature('calendar', reducer),
-    // EffectsModule.forFeature([CalendarEffect]), 
+    StoreModule.forFeature(CALENDAR_REDUCER_NODE, reducer),
+    EffectsModule.forFeature([CalendarEffects]), 
   ],
   providers: [FirebaseService, TaskService],
 

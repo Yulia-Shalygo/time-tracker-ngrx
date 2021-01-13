@@ -104,9 +104,8 @@ export class CalendarComponent implements OnInit {
       user: this.userUID
     };
 
-    this.store$.dispatch(new AddTask({ task }))
+    this.store$.dispatch(AddTask({ task }));
 
-    this.taskService.create(task);
     this.calendarForm.reset();
     this.modal = false;
   }

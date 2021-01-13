@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
 import { FirebaseService } from '../../services/firebase.service';
+import { Signin } from '../store/actions/auth.actions';
+import { User } from '../store/models/user.model';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +16,10 @@ export class LoginComponent implements OnInit {
   err = false;
   userId: any;
 
-  constructor(public firebaseServiсe: FirebaseService) {}
+  constructor(
+    public firebaseServiсe: FirebaseService,
+    private store: Store     
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -25,13 +31,14 @@ export class LoginComponent implements OnInit {
   }
 
   async signin(email: string, password: string): Promise<void> {
-    this.loginForm.disable();
+   
+    const user: User = {
+      email,
+      password
+    };
+    this.store.dispatch(Signin({ user }));
 
-    await this.firebaseServiсe.signin(email, password)
-      .catch(error => {      
-        this.loginForm.reset();
-        this.loginForm.enable();
-        this.err = true;
-      })
+    this.loginForm.reset();
+    this.loginForm.enable();
   }
 }
