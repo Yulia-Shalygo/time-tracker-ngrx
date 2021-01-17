@@ -1,45 +1,56 @@
 .container {
-  /* margin-top: 20px; */
-  float:left;
-  width:15em;
-  min-height:17em;
-  background:#f5f5f5;
-  padding:1.25em 1em 
+  margin-top: 20px;
+  background: #333;
+	border-radius: 10px;
+	box-shadow: 0 5px 20px rgba(0, 0, 0, .3);
+	height: 560px;
+  perspective: 1000;
+	transition: .9s;
+	transform-style: preserve-3d;
+  width: 100%;
 }
 
 /* Calendar header with date*/
 .date__header {
-  display: flex;
-  justify-content: center;
-}
-.year {
-  /* font-size: 20px;
-  padding: 0px 30px; */
-  font-size: 34px;
-	line-height: 38px;
-	margin: 0;
-	font-weight: 700;
-	color: #fff;
-	text-shadow: 0 1px 1px 
+  border-bottom: 1px solid rgba(73, 114, 133, .6);
+	display: flex;
+	justify-content: space-between;
+	padding: 30px 40px;
 }
 .material-icons {
+  padding-top: 10px;
   cursor: pointer;
+  color: #dfebed;
+	font-size: 1.4em;
+	font-weight: 300;
+}
+.year {
+  color: #dfebed;
+	font-size: 30px;
+	font-weight: 300;
 }
 
 /* Calendar */
-tr, td {
-  border: 2px solid#009688;
-}
-.months {
-  text-align: center;
+.calendar {
+  margin-left: 50px;
 }
 .tbody{
   border-collapse: separate;
-  border-spacing: 7px;
+}
+td {
+  text-align: center;
+}
+a {
+  padding: 10px;
+}
+.months {
+  color: #dfebed;
+	font-weight: 600;
+  text-align: center;
 }
 .calendar__number{
   text-decoration: none;
-  color: #212121;
+  color: #fff;
   font-size: 20px;
 }
 .tdata {
@@ -55,9 +66,10 @@ tr, td {
 }
 
 .active {  /* today */
-  border: 2px solid  #009688;
+  padding: 2px 8px;
+  background: #009688;
   border-radius: 50%;
-  padding: 0 3px;
+  color: #fff !important;
 }
 .selected {
   font-weight: 900;
@@ -69,7 +81,7 @@ tr, td {
 
 /* Modal */
 .modal {
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 .header_popup {
   display: flex;
@@ -97,22 +109,29 @@ tr, td {
 @media (max-width: 1200px) {
   .calendar__day {
     font-size: 20px;
- 
   }
 }
 @media (max-width: 992px) {
   .calendar__day {
-    font-size: 18px;
- 
+    font-size: 18px; 
+  }
+  .calendar {
+    margin-left: 0;
   }
 }
 @media (max-width: 800px) {
   .calendar__day {
     font-size: 12px;
   }
+  .calendar {
+    margin-left: 0;
+  }
 }
 @media (max-width: 500px) {
   .calendar__day {
     font-size: 10px;
+  }
+  .calendar {
+    margin-left: 0;
   }
 }

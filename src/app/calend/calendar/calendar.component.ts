@@ -3,16 +3,15 @@ import * as moment from 'moment';
 import { DateService } from 'src/app/services/date.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TaskService } from 'src/app/services/task.service';
-import firebase from 'firebase/app';
-import { createFeatureSelector, select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { readAllTasks, addTask } from '../store/actions/calendar.actions';
 import { Week } from '../store/models/week.model';
 import { Task } from '../store/models/task.model';
-import { from, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import { filter, map } from 'rxjs/operators';
-import { getTasks } from '../store/reducers/calendar.reducers';
-// import { selectTaskCollection, selectTasks } from '../store/selectors/calendar.selectors';
+import { getTaskByDate, selectUserId } from '../store/selectors/calendar.selectors';
+import { getUser } from 'src/app/auth/store/actions/auth.actions';
+import { State, UserState } from '../store/state/app.state';
 
 @Component({
   selector: 'app-calendar',
@@ -24,10 +23,8 @@ export class CalendarComponent implements OnInit {
   constructor(
     public dataService: DateService, 
     public taskService: TaskService,
-    private store: Store
-  ) { 
-    // this.store.subscribe((state) => console.log(state))
-  }
+    private store: Store<UserState>
+  ) { }
 
   userUID: any;
 
@@ -36,25 +33,12 @@ export class CalendarComponent implements OnInit {
   modal: boolean = false;
   calendarForm: FormGroup;
 
-  arr: Task[] = [];
-  tempArr: any;
-
   tempTask: Task = {
     description: '',
     time: '',
     date: '',
     user: ''
   };
-
- // finTask: Task[] = [];
-
-  finTask: Observable<Task[]>; 
-
-
-  taskList: Observable<Task[]>; // = this.store.pipe(select(selectTasks));
-  error: Observable<Error>;
-  // tasksCollection = this.store.pipe(select(selectTaskCollection));
-
 
   ngOnInit(): void {
     this.dataService.date.subscribe(this.calend.bind(this));
@@ -65,21 +49,11 @@ export class CalendarComponent implements OnInit {
         [Validators.required])
     })
 
-    // this.store.dispatch(readAllTasks())
+    this.store.dispatch(readAllTasks());
+    this.store.dispatch(getUser());
 
-  
-
-    this.taskService.readAll();
-  // console.log(from(this.taskService.readAll()).subscribe((Task) => this.store.dispatch(addAllTasks({ Task }))))
-    
-    // this.store.dispatch(addAllTasks({ Task }));
-    //this.store.dispatch(addAllTasks());//this.store.select(state => state.tasks);
-
-    //const sel = createFeatureSelector('tasks');
-    //this.store.select()
-    // console.log(this.finTask)
+    this.store.select(selectUserId).subscribe((id) => this.userUID = id)
   }
-
 
   calend(curDate: moment.Moment): void {
     let calendar: any = [];
@@ -115,7 +89,7 @@ export class CalendarComponent implements OnInit {
     this.modal = true;
     this.dataService.changeDate(day);
 
-    this.readTaskForModal();
+    this.readTaskForModal(day.format("YYYY-MM-DD"));
   }
 
   closeModal(): void {
@@ -125,8 +99,6 @@ export class CalendarComponent implements OnInit {
 
   submit(): void {
     const { description, hours } = this.calendarForm.value;
-
-    this.userUID = firebase.auth().currentUser.uid;
 
     const task: Task = {
       date: this.dataService.date.value.format('YYYY-MM-DD'),
@@ -141,21 +113,15 @@ export class CalendarComponent implements OnInit {
     this.modal = false;
   }
 
-  readTaskForModal(): void {
-    this.userUID = firebase.auth().currentUser.uid;
+  readTaskForModal(day: string): void {
+    let curtask: Task;
+    this.store.select(getTaskByDate(day)).subscribe((task) => curtask = task)
 
-    this.tempArr = this.finTask// .subscribe();
-
-    console.log(this.tempArr)// .pipe(filter(item => item.user === this.userUID).filter(item => item.date === this.dataService.date.value.format("YYYY-MM-DD")));
-    
-    // // .pipe(filter(item => item.user === this.userUID).filter(item => item.date === this.dataService.date.value.format("YYYY-MM-DD")));
-    if (this.tempArr.length) {
-      this.tempArr.map((item) => {
-        this.tempTask.description = item.description;
-        this.tempTask.time = item.time;
-        this.tempTask.date = item.date;
-        this.tempTask.user = item.user;
-      });
+    if (curtask) {
+      this.tempTask.description = curtask.description;
+      this.tempTask.time = curtask.time;
+      this.tempTask.date = curtask.date;
+      this.tempTask.user = curtask.user;
     } else {
       this.tempTask.description = '';
       this.tempTask.time = '';

@@ -3,21 +3,50 @@ import { User } from '../models/user.model';
 
 export enum AuthActionTypes {
     signIn = '[Auth] SignIn',
-    logOut = '[Auth] Logout',
-    register = '[Auth] Register',
-
+    signInSuccess = '[Auth] SignIn Success',
     signInError = '[Auth] SignIn Error',
+
+    
+    register = '[Auth] Register',
+    registerSuccess = '[Auth] Register Success',
     registerError = '[Auth] Register Error',
+
+    logOut = '[Auth] Logout',
+    logOutSuccess = '[Auth] LogOut Success',
     logOutError = '[Auth] LogOut Error', 
 
-    signInSuccess = '[Auth] SignIn Success',
-    registerSuccess = '[Auth] Register Success',
-    logOutSuccess = '[Auth] LogOut Success',
+    getUser = '[Auth] Get User',
+    getUserSuccess = '[Auth] Get User Success',
+    getUserError = '[Auth] Get User Error'
 }
+
+export const getUser = createAction(
+    AuthActionTypes.getUser
+);
+
+export const getUserSuccess = createAction(
+    AuthActionTypes.getUserSuccess,
+    props<{userId: string}>()
+);
+
+export const getUserError = createAction(
+    AuthActionTypes.getUserError,
+    props<{ error: any }>()
+);
 
 export const signIn = createAction(
     AuthActionTypes.signIn,
     props<{user: User}>()
+);
+
+export const signInSuccess = createAction(
+    AuthActionTypes.signInSuccess,
+    props<{userId: string}>()
+);
+
+export const signInError = createAction(
+    AuthActionTypes.signInError,
+    props<{ error: any }>()
 );
 
 export const register = createAction(
@@ -25,30 +54,24 @@ export const register = createAction(
     props<{user: User}>()
 );
 
+export const registerSuccess = createAction(
+    AuthActionTypes.registerSuccess,
+);
+
+export const registerError = createAction(
+    AuthActionTypes.registerError,
+    props<{ error: any }>()
+);
+
 export const logOut = createAction(
     AuthActionTypes.logOut
-);
-
-export const signInSuccess = createAction(
-    AuthActionTypes.signInSuccess
-);
-
-export const registerSuccess = createAction(
-    AuthActionTypes.registerSuccess
 );
 
 export const logOutSuccess = createAction(
     AuthActionTypes.logOutSuccess
 );
 
-export const registerError = createAction(
-    AuthActionTypes.registerError
-);
-
-export const signInError = createAction(
-    AuthActionTypes.signInError
-);
-
 export const logOutError = createAction(
-    AuthActionTypes.logOutError
+    AuthActionTypes.logOutError,
+    props<{ error: any }>()
 );

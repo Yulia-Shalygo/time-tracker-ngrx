@@ -1,73 +1,26 @@
-
-import { state } from '@angular/animations';
-import { act } from '@ngrx/effects';
-import { createReducer, on, Action, createSelector } from '@ngrx/store';
-import { addTask, addTaskError, readAllTasks, readAllTasksSuccess } from '../actions/calendar.actions';
-import { Task } from '../models/task.model';
-import { AppState } from '../state/app.state';
+import { createReducer, on, Action } from '@ngrx/store';
+import { logOut } from 'src/app/auth/store/actions/auth.actions';
+import { addTaskSuccess, readAllTasksSuccess } from '../actions/calendar.actions';
+import { tasksInitialState, TaskState } from '../state/app.state';
 
 export const CALENDAR_REDUCER_NODE = 'calendar';
 
-// reducers
-export interface State {
-    tasks: Task[],
-    error: Error
-}
-
-const initialState: State = {
-    tasks: [],
-    error: undefined
- };
-
-
 export const CalendarReducer = createReducer(
-    initialState,
+    tasksInitialState,
 
-    on(readAllTasks, (state, action) => ({
-        ...state,
-    })),
-    on(readAllTasksSuccess, (state, {tasks}) => ({
-        ...state,
-        allTasks: tasks
-    })),
-
-    on(addTask, (state, action) => ({
-        ...state,
-        // tasks: [
-        //     ...state.tasks,
-        //     {
-        //         task: action.task
-        //     }
-        // ]
-    })),
-
-  /* ++
-    on(calendarActions.readAllTasksSuccess, (state, {tasks}) => (
-         {
-        
-        ...state,
+    on(readAllTasksSuccess, (state, { tasks }) => ({
         tasks: tasks
-       // tasks: action.tasks// action.tasks
     })),
-*/
 
-    // on(calendarActions.addTaskSuccess, (state, action) => ({
-    //     ...state,
-    //     name: 'Succ'
-    // })),
-    on(addTaskError, (state) => ({
-        ...state,
-    }))
+    on(addTaskSuccess, (state, { task }) => ({
+        tasks: [...state.tasks, task]
+    })),
 
+    on(logOut, (state, action) => ({
+        tasks: []
+    })),
 );
 
-export function reducer(state: State | undefined, action: Action) {
+export function reducer(state: TaskState | undefined, action: Action) {
     return CalendarReducer(state, action);
 }
-
-const getTaskFeatureState = (state: AppState) => state.tasks;
-
-export const getTasks = createSelector(
-    getTaskFeatureState,
-    (state: State) => state.tasks
-)

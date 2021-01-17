@@ -5,19 +5,20 @@ import { TaskService } from 'src/app/services/task.service';
 import { from, of } from 'rxjs';
 
 import { addTask, addTaskError, addTaskSuccess, readAllTasks, readAllTasksError, readAllTasksSuccess } from '../actions/calendar.actions';
+import { FirebaseService } from 'src/app/services/firebase.service';
 
 @Injectable()
 export class CalendarEffects {
     constructor(
         private action: Actions,
-        private taskServiсe: TaskService
+        private taskServiсe: TaskService,
     ) {}
 
     addTask = createEffect(() => this.action.pipe(
         ofType(addTask),
-        exhaustMap((action) => 
-            from(this.taskServiсe.create(action.task)).pipe(
-                map(() => addTaskSuccess()),
+        exhaustMap(({ task }) => 
+            from(this.taskServiсe.create(task)).pipe(
+                map(() => addTaskSuccess({ task })),
                 catchError((error) => of(addTaskError(error)))
             )
         )
@@ -25,12 +26,11 @@ export class CalendarEffects {
 
     readAllTasks = createEffect(() => this.action.pipe(
         ofType(readAllTasks),
-        switchMap((action) => 
-            of(this.taskServiсe.readAll()).pipe(
+        exhaustMap(() => 
+            from(this.taskServiсe.readAll()).pipe(
                 map((tasks) => readAllTasksSuccess({ tasks })),
                 catchError((error) => of(readAllTasksError({ error })))
             )
         )
-    
-    ))
+    ));
 }

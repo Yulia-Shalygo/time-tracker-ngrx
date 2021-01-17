@@ -8,7 +8,7 @@ import { AuthComponent } from './auth.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AuthEffects } from './store/effects/auth.effects';
-import { AUTH_REDUCER_NODE, reducer } from './store/reducers/auth.reducers';
+import { AUTH_REDUCER_NODE, reducerAuth } from './store/reducers/auth.reducers';
 import { CommonModule } from '@angular/common';  
 
 @NgModule({
@@ -25,7 +25,7 @@ import { CommonModule } from '@angular/common';
         HttpClientModule,
 
         EffectsModule.forFeature([AuthEffects]), 
-        StoreModule.forFeature(AUTH_REDUCER_NODE, reducer)
+        StoreModule.forFeature(AUTH_REDUCER_NODE, reducerAuth)
     ],
     providers: []
 })

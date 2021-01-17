@@ -1,6 +1,22 @@
-import { Task } from "../models/task.model";
-import { State } from '../reducers/calendar.reducers';
+import { Task } from '../models/task.model';
 
-export interface AppState {
-    readonly tasks: State;
+export const authInitialState: UserState = {
+   userId: ''
+};
+
+export const tasksInitialState: TaskState = {
+  tasks: []
+};
+
+export interface UserState {
+  userId: string,
+}
+
+export interface TaskState {
+  tasks: Task[],
+}
+
+export interface State {
+  user: UserState,
+  task: TaskState
 }

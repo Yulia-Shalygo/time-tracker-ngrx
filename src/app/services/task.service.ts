@@ -2,13 +2,11 @@ import { Injectable } from '@angular/core';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
-import { DataSnapshot } from '@angular/fire/database/interfaces';
-import { from, Observable, of } from 'rxjs';
 
 import { Task } from '../calend/store/models/task.model';
 import { DateService } from './date.service';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { map } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { selectUserId } from '../calend/store/selectors/calendar.selectors';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +15,11 @@ import { map } from 'rxjs/operators';
 export class TaskService {
   static url: string = 'https://time-tracker-9eb9c-default-rtdb.firebaseio.com/tasks';
 
+  userUID: string;
+
   constructor(
     public dataService: DateService,
-    private db: AngularFirestore
+    private store: Store
   ) { }
 
   create(task: Task): any { 
@@ -27,18 +27,11 @@ export class TaskService {
       console.log(error);
     })
   }
-  readAll(): Task[] {
-    let arr:Task[] = [];
 
-    const userUID = firebase.auth().currentUser.uid; 
-
-    firebase.database().ref(`tasks/${userUID}`) 
-    .on('value', (data: DataSnapshot) => {
-       data.forEach((child: DataSnapshot) => {
-         arr.push(child.val());
-       });
-    });
-    console.log(arr)
-    return arr;
+  async readAll(): Promise<Task[]> {
+    await this.store.select(selectUserId).subscribe((id) => this.userUID = id);
+    const snapshot = await firebase.database().ref(`tasks/${ this.userUID }`).once('value');
+    
+    return Object.values(snapshot.val() || {});
   }
 }

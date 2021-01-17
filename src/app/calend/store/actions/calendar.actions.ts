@@ -5,11 +5,10 @@ import { Task } from '../models/task.model';
 export enum CalendarActionTypes {
     addTask = '[Task] Create Task',
     addTaskSuccess = '[Task] Create Task Success',
+    addTaskError = '[Task] Create Task Error',
 
     readAllTasks = '[Task] Read All Tasks', 
     readAllTasksSuccess = '[Task] Read All Tasks Success', 
-
-    addTaskError = '[Task] Create Task Error',
     readAllTasksError = '[Task] Read All Tasks Success', 
 };
 
@@ -20,7 +19,7 @@ export const addTask = createAction(
 
 export const addTaskSuccess = createAction(
     CalendarActionTypes.addTaskSuccess,
-    // props<{ tasks: Task[] }>()
+    props<{ task: Task }>()
 );
 
 export const addTaskError = createAction(
