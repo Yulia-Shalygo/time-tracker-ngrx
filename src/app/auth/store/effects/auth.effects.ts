@@ -1,42 +1,46 @@
-import { Injectable } from "@angular/core";
-import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { of } from "rxjs";
+import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { from, of } from 'rxjs';
 import { catchError, exhaustMap, map} from 'rxjs/operators';
-import { FirebaseService } from "src/app/services/firebase.service";
-import * as authActions from '../actions/auth.actions';
+import { FirebaseService } from 'src/app/services/firebase.service';
+import { logOut, logOutError, logOutSuccess, register, registerError, registerSuccess, signIn, signInError, signInSuccess } from '../actions/auth.actions';
 
 @Injectable()
 export class AuthEffects {
     constructor(
         private actions: Actions,
-        private firebaseServiсe: FirebaseService
+        private firebaseService: FirebaseService
     ) {}
 
-    signin = createEffect(()=> { 
-        return this.actions.pipe(
-            ofType(authActions.Signin),
-            exhaustMap((action) => this.firebaseServiсe.signin(action.user.email, action.user.password).pipe(
-                map(user => authActions.Signin(user)),
-                catchError(() => of({type: authActions.SigninError}))
-            )),
-        )
-    }, {dispatch: false});
+    signin = createEffect(()=>this.actions.pipe(
+        ofType(signIn),
+        exhaustMap((action) =>
+            from(this.firebaseService.signin(action.user.email, action.user.password)).pipe(
+                map(user => signInSuccess()),
+                catchError(() => of(signInError()))
+                //catchError(() => of({type: authActions.signInError}))
+        )),
+        
+    ));
 
     regiser = createEffect(() => {
         return this.actions.pipe(
-            ofType(authActions.Register),
-            exhaustMap((action) => this.firebaseServiсe.register(action.user.email, action.user.password).pipe(
-                map(user => authActions.Register(user))
+            ofType(register),
+            exhaustMap((action) => 
+                from(this.firebaseService.register(action.user.email, action.user.password)).pipe(
+                    map(user => registerSuccess()),
+                    catchError(() => of(registerError()))
             ))
         )
-    }, {dispatch: false});
+    });
 
     logout = createEffect(() => {
         return this.actions.pipe(
-            ofType(authActions.Logout),
-            exhaustMap((action) => this.firebaseServiсe.logout().pipe(
-                map(log =>authActions.Logout())
+            ofType(logOut),
+            exhaustMap((action) => from(this.firebaseService.logout()).pipe(
+                map(log =>logOutSuccess()),
+                catchError(() => of(logOutError()))
             ))
         )
-    }, {dispatch: false});
+    });
 }

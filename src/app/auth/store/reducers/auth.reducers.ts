@@ -1,4 +1,4 @@
-import { User } from "../models/user.model";
+import { User } from '../models/user.model';
 import * as authActions from '../actions/auth.actions';
 import { Action, createReducer, on, } from '@ngrx/store';
 
@@ -14,11 +14,11 @@ const  initialState: State = {
 
 export const AuthReducer = createReducer(
     initialState, 
-    on(authActions.Signin, (state, action) => ({
+    on(authActions.signIn, (state, action) => ({
         ...state,
         user: action.user        
     })),
-    on(authActions.Logout, (state, action) => ({
+    on(authActions.logOut, (state, action) => ({
         ...state
     }))
 );

@@ -2,28 +2,53 @@ import { createAction, props } from '@ngrx/store';
 import { User } from '../models/user.model';
 
 export enum AuthActionTypes {
-    Signin = '[Auth] Signin',
-    Logout = '[Auth] Logout',
+    signIn = '[Auth] SignIn',
+    logOut = '[Auth] Logout',
+    register = '[Auth] Register',
 
-    Register = '[Auth] Register',
+    signInError = '[Auth] SignIn Error',
+    registerError = '[Auth] Register Error',
+    logOutError = '[Auth] LogOut Error', 
 
-    Signin_error = '[Auth] Signin Error'
+    signInSuccess = '[Auth] SignIn Success',
+    registerSuccess = '[Auth] Register Success',
+    logOutSuccess = '[Auth] LogOut Success',
 }
 
-export const Signin = createAction(
-    AuthActionTypes.Signin,
+export const signIn = createAction(
+    AuthActionTypes.signIn,
     props<{user: User}>()
 );
 
-export const Register = createAction(
-    AuthActionTypes.Register,
+export const register = createAction(
+    AuthActionTypes.register,
     props<{user: User}>()
 );
 
-export const Logout = createAction(
-    AuthActionTypes.Logout
+export const logOut = createAction(
+    AuthActionTypes.logOut
 );
 
-export const SigninError = createAction(
-    AuthActionTypes.Signin_error
+export const signInSuccess = createAction(
+    AuthActionTypes.signInSuccess
+);
+
+export const registerSuccess = createAction(
+    AuthActionTypes.registerSuccess
+);
+
+export const logOutSuccess = createAction(
+    AuthActionTypes.logOutSuccess
+);
+
+export const registerError = createAction(
+    AuthActionTypes.registerError
+);
+
+export const signInError = createAction(
+    AuthActionTypes.signInError
+);
+
+export const logOutError = createAction(
+    AuthActionTypes.logOutError
 );

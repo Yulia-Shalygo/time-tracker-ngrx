@@ -1,4 +1,4 @@
-import { Day } from "./day.model";
+import { Day } from './day.model';
 
 export interface Week {
    days: Day[];

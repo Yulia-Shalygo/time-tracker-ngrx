@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './auth/auth.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
-import { HeaderCalendComponent } from './calend/header-calend/header-calend.component';
 import { AngularFireAuthGuard, redirectLoggedInTo, redirectUnauthorizedTo } from "@angular/fire/auth-guard";
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
@@ -16,8 +15,8 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent,  },
     { path: 'register', component: RegisterComponent}
   ]},
-  { path: 'calendar', canActivate: [AngularFireAuthGuard], data: { authGuardPipe: redirectUnauthorizedToLogin }, loadChildren: () => import('./calend/calendar-page-m/calendar-page-m.module').then(m => m.CalendarPageMModule) },
-  {path: 'logout', component: HeaderCalendComponent}
+  { path: 'calendar', component: AuthComponent, canActivate: [AngularFireAuthGuard], data: { authGuardPipe: redirectUnauthorizedToLogin }, loadChildren: () => import('./calend/calendar-page-m/calendar-page-m.module').then(m => m.CalendarPageMModule) },
+  // {path: 'logout', component: }
 ];
 
 @NgModule({

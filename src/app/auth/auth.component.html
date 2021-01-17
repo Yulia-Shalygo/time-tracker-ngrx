@@ -4,8 +4,9 @@
             <a routerLink="" class="nav__link logo">Time-tracker</a>
 
             <nav class="nav">
-                <a routerLink="login" class="links nav__link">SignIn</a>
-                <a routerLink="register" class="links nav__link">SignUp</a>
+                <a *ngIf="!userUID" routerLink="login" class="links nav__link">SignIn</a>
+                <a *ngIf="!userUID" routerLink="register" class="links nav__link">SignUp</a>
+                <a *ngIf="userUID" (click)="logout()" class="links nav__link">Logout</a>
             </nav>
         </div>
     </div>

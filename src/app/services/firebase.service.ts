@@ -14,9 +14,8 @@ export class FirebaseService {
 
   constructor(public fireAuth: AngularFireAuth, private router: Router) { }
 
-  signin(email: string, password: string): Observable<any> {
-    return from(
-      this.fireAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
+  signin(email: string, password: string): any {
+    return this.fireAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
         return this.fireAuth.signInWithEmailAndPassword(email, password).then(res => {
           this.user =  firebase.auth().currentUser;
           this.router.navigate(['/calendar']);
@@ -33,13 +32,12 @@ export class FirebaseService {
         this.error = error;
         console.log(error);
         this.router.errorHandler(error);
-      })
-    )
+      });
+    
   }
 
-  register(email: string, password: string): Observable<any> {
-    return from(
-      this.fireAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
+  register(email: string, password: string): any {
+    return this.fireAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
         return this.fireAuth.createUserWithEmailAndPassword(email, password).then(res => {
           this.router.navigate(['/calendar']);
         }).catch((error) => {
@@ -48,13 +46,13 @@ export class FirebaseService {
           this.error = error;
           console.log(error);
           this.router.errorHandler(error);
-        })
-      })
-    )} 
+        });
+      });
+    }; 
 
-  logout(): Observable<any> {
-    return from(firebase.auth().signOut().catch((error) => {
+  logout():any {
+    return firebase.auth().signOut().catch((error) => {
       console.log(error);
-    }))
+    });
   }
 }

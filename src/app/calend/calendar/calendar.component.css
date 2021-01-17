@@ -1,5 +1,10 @@
 .container {
-  margin-top: 20px;
+  /* margin-top: 20px; */
+  float:left;
+  width:15em;
+  min-height:17em;
+  background:#f5f5f5;
+  padding:1.25em 1em 
 }
 
 /* Calendar header with date*/
@@ -8,8 +13,14 @@
   justify-content: center;
 }
 .year {
-  font-size: 20px;
-  padding: 0px 30px;
+  /* font-size: 20px;
+  padding: 0px 30px; */
+  font-size: 34px;
+	line-height: 38px;
+	margin: 0;
+	font-weight: 700;
+	color: #fff;
+	text-shadow: 0 1px 1px 
 }
 .material-icons {
   cursor: pointer;

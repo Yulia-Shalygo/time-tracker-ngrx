@@ -24,6 +24,7 @@
 
 .nav__link{
 	margin: 0 15px;
+	cursor: pointer;
 	position: relative; 
 	color: #fff;
 	text-decoration: none;

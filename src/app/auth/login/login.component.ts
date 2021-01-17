@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { FirebaseService } from '../../services/firebase.service';
-import { Signin } from '../store/actions/auth.actions';
+import { signIn } from '../store/actions/auth.actions';
 import { User } from '../store/models/user.model';
 
 @Component({
@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
       email,
       password
     };
-    this.store.dispatch(Signin({ user }));
+    this.store.dispatch(signIn({ user }));
 
     this.loginForm.reset();
     this.loginForm.enable();

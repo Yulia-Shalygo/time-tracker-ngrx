@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { FirebaseService } from '../../services/firebase.service';
-import { Register } from '../store/actions/auth.actions';
+import { register } from '../store/actions/auth.actions';
 import { User } from '../store/models/user.model';
 
 @Component({
@@ -42,6 +42,6 @@ export class RegisterComponent implements OnInit {
       password
     };
 
-    this.store.dispatch(Register({ user }));
+    this.store.dispatch(register({ user }));
   }
 }
