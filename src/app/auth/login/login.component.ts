@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { getError } from 'src/app/calend/store/selectors/calendar.selectors';
 import { FirebaseService } from '../../services/firebase.service';
 import { signIn } from '../store/actions/auth.actions';
 import { User } from '../store/models/user.model';
@@ -16,10 +18,14 @@ export class LoginComponent implements OnInit {
   err = false;
   userId: any;
 
+  data: any;
+
+  subscription: Subscription;
+
   constructor(
     public firebaseServiсe: FirebaseService,
-    private store: Store     
-  ) {}
+    private store: Store,
+  ) { }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -37,6 +43,12 @@ export class LoginComponent implements OnInit {
       password
     };
     this.store.dispatch(signIn({ user }));
+
+    this.subscription = this.store.pipe(select(getError)).subscribe(error => {
+      if (error) {
+        this.err = true;
+      }
+    });
 
     this.loginForm.reset();
     this.loginForm.enable();

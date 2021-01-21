@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import firebase from 'firebase/app';
 
 @Injectable({
@@ -13,45 +14,31 @@ export class FirebaseService {
 
   constructor(
     public fireAuth: AngularFireAuth,
-    private router: Router
+    private router: Router,
   ) { }
 
-  signin(email: string, password: string): any {   
-    return this.fireAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
-        return this.fireAuth.signInWithEmailAndPassword(email, password).then(res => {
-          this.user =  firebase.auth().currentUser;
+  async signin(email: string, password: string): Promise<string> {   
+    await this.fireAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
+        return this.fireAuth.signInWithEmailAndPassword(email, password).then(() => {
+          this.user =  firebase.auth().currentUser.uid;
           this.router.navigate(['/calendar']);
-        }).catch((error) => {
-         
-          this.error = error;
-          console.log(error);
-          this.router.errorHandler(error);
         });
-      }).catch((error) => {
-        
-        this.error = error;
-        console.log(error);
-        this.router.errorHandler(error);
-      });
+    });
+     return this.user;
   }
 
-  register(email: string, password: string): any {
-    return this.fireAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
-        return this.fireAuth.createUserWithEmailAndPassword(email, password).then(res => {
-          this.router.navigate(['/calendar']);
-        }).catch((error) => {
-
-          this.error = error;
-          console.log(error);
-          this.router.errorHandler(error);
-        });
+  async register(email: string, password: string): Promise<string> {
+    await this.fireAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
+      return this.fireAuth.createUserWithEmailAndPassword(email, password).then(() => {
+        this.user = firebase.auth().currentUser.uid;
+        this.router.navigate(['/calendar']);
       });
-    }; 
+    });
+    return this.user;
+  }; 
 
   logout(): any {
-    return firebase.auth().signOut().catch((error) => {
-      console.log(error);
-    });
+    return firebase.auth().signOut();
   }
 
   getUser(): string {

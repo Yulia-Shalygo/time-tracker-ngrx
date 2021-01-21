@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { TaskState, UserState } from "../state/app.state";
+import { State, TaskState, UserState } from "../state/app.state";
 
 export const selectTasks = (state: TaskState) => state.tasks;
 export const tasksSelector = createFeatureSelector('calendar');
@@ -21,3 +21,9 @@ export const getTaskByDate = (date: string) => createSelector(
         }
     }
 ) 
+
+export const errorSelector = createFeatureSelector('auth');
+export const getError = createSelector(
+    errorSelector,
+    (state: State) => state.error
+)

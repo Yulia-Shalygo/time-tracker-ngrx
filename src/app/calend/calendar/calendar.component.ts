@@ -7,11 +7,10 @@ import { Store } from '@ngrx/store';
 import { readAllTasks, addTask } from '../store/actions/calendar.actions';
 import { Week } from '../store/models/week.model';
 import { Task } from '../store/models/task.model';
-import { Observable } from 'rxjs';
 
 import { getTaskByDate, selectUserId } from '../store/selectors/calendar.selectors';
 import { getUser } from 'src/app/auth/store/actions/auth.actions';
-import { State, UserState } from '../store/state/app.state';
+import { State } from '../store/state/app.state';
 
 @Component({
   selector: 'app-calendar',
@@ -23,7 +22,7 @@ export class CalendarComponent implements OnInit {
   constructor(
     public dataService: DateService, 
     public taskService: TaskService,
-    private store: Store<UserState>
+    private store: Store<State>
   ) { }
 
   userUID: any;
@@ -52,7 +51,7 @@ export class CalendarComponent implements OnInit {
     this.store.dispatch(readAllTasks());
     this.store.dispatch(getUser());
 
-    this.store.select(selectUserId).subscribe((id) => this.userUID = id)
+    this.store.select(selectUserId).subscribe((id) => this.userUID = id);
   }
 
   calend(curDate: moment.Moment): void {
@@ -89,7 +88,7 @@ export class CalendarComponent implements OnInit {
     this.modal = true;
     this.dataService.changeDate(day);
 
-    this.readTaskForModal(day.format("YYYY-MM-DD"));
+    this.readTaskForModal(day.format('YYYY-MM-DD'));
   }
 
   closeModal(): void {
@@ -108,6 +107,7 @@ export class CalendarComponent implements OnInit {
     };
 
     this.store.dispatch(addTask({ task }));
+    this.store.dispatch(readAllTasks());
 
     this.calendarForm.reset();
     this.modal = false;
@@ -115,7 +115,7 @@ export class CalendarComponent implements OnInit {
 
   readTaskForModal(day: string): void {
     let curtask: Task;
-    this.store.select(getTaskByDate(day)).subscribe((task) => curtask = task)
+    this.store.select(getTaskByDate(day)).subscribe((task) => curtask = task);
 
     if (curtask) {
       this.tempTask.description = curtask.description;

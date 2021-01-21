@@ -1,6 +1,6 @@
 import { createReducer, on, Action } from '@ngrx/store';
-import { logOut } from 'src/app/auth/store/actions/auth.actions';
-import { addTaskSuccess, readAllTasksSuccess } from '../actions/calendar.actions';
+import { logOutSuccess } from 'src/app/auth/store/actions/auth.actions';
+import { addTaskError, addTaskSuccess, readAllTasksError, readAllTasksSuccess } from '../actions/calendar.actions';
 import { tasksInitialState, TaskState } from '../state/app.state';
 
 export const CALENDAR_REDUCER_NODE = 'calendar';
@@ -12,11 +12,21 @@ export const CalendarReducer = createReducer(
         tasks: tasks
     })),
 
+    on(readAllTasksError, (state, action) => ({
+        ...state,
+        error: action.error
+    })),
+
     on(addTaskSuccess, (state, { task }) => ({
         tasks: [...state.tasks, task]
     })),
 
-    on(logOut, (state, action) => ({
+    on(addTaskError, (state, action) => ({
+        ...state,
+        error: action.error.message
+    })),
+
+    on(logOutSuccess, () => ({
         tasks: []
     })),
 );

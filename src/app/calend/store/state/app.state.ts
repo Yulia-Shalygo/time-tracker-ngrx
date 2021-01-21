@@ -9,14 +9,15 @@ export const tasksInitialState: TaskState = {
 };
 
 export interface UserState {
-  userId: string,
+  userId: string;
 }
 
 export interface TaskState {
-  tasks: Task[],
+  tasks: Task[];
 }
 
 export interface State {
-  user: UserState,
-  task: TaskState
+  user: UserState;
+  task: TaskState;
+  error: any;
 }

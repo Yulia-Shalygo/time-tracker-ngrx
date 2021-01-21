@@ -56,6 +56,7 @@ export const register = createAction(
 
 export const registerSuccess = createAction(
     AuthActionTypes.registerSuccess,
+    props<{userId: string}>()
 );
 
 export const registerError = createAction(
