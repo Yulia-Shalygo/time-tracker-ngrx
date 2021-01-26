@@ -18,7 +18,7 @@
                 <div class="help">
                     <span *ngIf=" (formRegister.get('password1').value != formRegister.get('password2').value) && formRegister.get('password2').touched" class="error-text">The password confirmation does not match</span>
                     <span *ngIf="formRegister.get('password1').invalid &&  formRegister.get('password1').touched" class="error-text">Password is too short (minimum 6 characters)</span>
-                    <span *ngIf="err" class="error-text">Account with this email address already exists</span>
+                    <span *ngIf="err" class="error-text">{{err}}</span>
                 </div>
             </div>
             <input  (click)="onSignup(email.value, password.value)" class="btn btn-default" [disabled]="formRegister.invalid" type="submit" value="Create" />

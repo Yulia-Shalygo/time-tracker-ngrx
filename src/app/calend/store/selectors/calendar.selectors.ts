@@ -25,5 +25,5 @@ export const getTaskByDate = (date: string) => createSelector(
 export const errorSelector = createFeatureSelector('auth');
 export const getError = createSelector(
     errorSelector,
-    (state: State) => state.error
+    (state: State) => state.errorCode
 )

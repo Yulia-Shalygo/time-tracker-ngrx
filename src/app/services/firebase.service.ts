@@ -9,7 +9,7 @@ import firebase from 'firebase/app';
 })
 export class FirebaseService {
   error: string;
-  user: any;
+  userId: any;
   public currentUser: any;
 
   constructor(
@@ -20,21 +20,21 @@ export class FirebaseService {
   async signin(email: string, password: string): Promise<string> {   
     await this.fireAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
         return this.fireAuth.signInWithEmailAndPassword(email, password).then(() => {
-          this.user =  firebase.auth().currentUser.uid;
+          this.userId =  firebase.auth().currentUser.uid;
           this.router.navigate(['/calendar']);
         });
     });
-     return this.user;
+     return this.userId;
   }
 
   async register(email: string, password: string): Promise<string> {
     await this.fireAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
       return this.fireAuth.createUserWithEmailAndPassword(email, password).then(() => {
-        this.user = firebase.auth().currentUser.uid;
+        this.userId = firebase.auth().currentUser.uid;
         this.router.navigate(['/calendar']);
       });
     });
-    return this.user;
+    return this.userId;
   }; 
 
   logout(): any {

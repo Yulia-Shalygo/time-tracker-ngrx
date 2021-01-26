@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { getError } from 'src/app/calend/store/selectors/calendar.selectors';
+import { ErrorService } from 'src/app/services/error.service';
 import { FirebaseService } from '../../services/firebase.service';
 import { register } from '../store/actions/auth.actions';
 import { User } from '../store/models/user.model';
@@ -15,13 +16,14 @@ import { User } from '../store/models/user.model';
 export class RegisterComponent implements OnInit {
 
   formRegister: FormGroup;
-  err: boolean = false;
+  err: string = '';
 
   subscription: Subscription;
 
   constructor(
     public firebaseService: FirebaseService,
-    private store: Store
+    private store: Store,
+    private errorService: ErrorService
   ) { }
 
   ngOnInit(): void {
@@ -46,10 +48,8 @@ export class RegisterComponent implements OnInit {
       password
     };
 
-    this.subscription = this.store.pipe(select(getError)).subscribe(error => {
-      if (error) {
-        this.err = true;
-      }
+    this.subscription = this.store.pipe(select(getError)).subscribe(errorCode => {
+      if(errorCode) this.err = this.errorService.getErrorString(errorCode);
     });
 
     this.store.dispatch(register({ user }));

@@ -19,5 +19,6 @@ export interface TaskState {
 export interface State {
   user: UserState;
   task: TaskState;
-  error: any;
+  errorCode: string;
+  errorMessage: string;
 }

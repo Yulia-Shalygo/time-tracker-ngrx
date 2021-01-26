@@ -48,8 +48,8 @@ export class CalendarComponent implements OnInit {
         [Validators.required])
     })
 
-    this.store.dispatch(readAllTasks());
     this.store.dispatch(getUser());
+    this.store.dispatch(readAllTasks());
 
     this.store.select(selectUserId).subscribe((id) => this.userUID = id);
   }

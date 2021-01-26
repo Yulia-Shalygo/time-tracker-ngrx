@@ -12,7 +12,7 @@ export const AuthReducer = createReducer(
 
     on(logOutError, (state, action) => ({
         ...state,
-        error: action.error.message
+        errorMessage: action.error.message
     })),
 
     on(signInSuccess, (state, action) => ({
@@ -21,7 +21,7 @@ export const AuthReducer = createReducer(
 
     on(signInError, (state, action) => ({
         ...state,
-        error: action.error.message
+        errorCode: action.error.code,
     })),
 
     on(registerSuccess, (state, action) => ({
@@ -30,7 +30,7 @@ export const AuthReducer = createReducer(
 
     on(registerError, (state, action) => ({
         ...state,
-        error: action.error.message
+        errorCode: action.error.code,
     })),
 
     on(getUserSuccess, (state, action) => ({
@@ -39,7 +39,7 @@ export const AuthReducer = createReducer(
 
     on(getUserError, (state, action) => ({
         ...state,
-        error: action.error.message
+        errorCode: action.error.code,
     })),
 
 );
