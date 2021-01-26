@@ -1,5 +1,5 @@
-import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { State, TaskState, UserState } from "../state/app.state";
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { State, TaskState, UserState } from '../state/app.state';
 
 export const selectTasks = (state: TaskState) => state.tasks;
 export const tasksSelector = createFeatureSelector('calendar');
